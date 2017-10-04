@@ -59,7 +59,7 @@ export class CustomCalendarComponent implements OnInit {
 
     getPosteriorSaturday(date: Date): Date {
         let newDate = new Date();
-        newDate.setDate(date.getDate() + 6 - date.getDay());
+        newDate.setDate(date.getDate() + 7 - date.getDay());
         return newDate;
     }
 
@@ -112,7 +112,7 @@ export class CustomCalendarComponent implements OnInit {
         week.days = [];
         week = this.completeInvalidDays(this.getPreviousSunday(start), this.addDay(start, 0), week);
 
-        for (let d = start; d < end; d.setDate(d.getDate() + 1)) {
+        for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
             console.log("day:" + d);
             //check if last day of month
             if(this.isLastDayOfMonth(d)) {
@@ -135,7 +135,7 @@ export class CustomCalendarComponent implements OnInit {
                 //Create new week
                 week = new Week();
                 week.days = [];
-                week = this.completeInvalidDays(this.getPreviousSunday(nextDay), this.addDay(nextDay, 1), week);
+                week = this.completeInvalidDays(this.getPreviousSunday(nextDay), this.addDay(nextDay, 0), week);
             }
 
             //check if last day of week
