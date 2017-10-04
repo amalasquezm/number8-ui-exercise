@@ -1,3 +1,11 @@
-<p>
-  custom-calendar works!
-</p>
+<div *ngFor="let month of months">
+  <br/>  
+  <div>{{month.name}}</div>
+  <table>
+      <tr *ngFor="let week of month.weeks">
+          <td *ngFor="let day of week.days" [ngClass]="{'invalidDay': day.isDisabled, 'weekend': day.isWeekend, 'holiday': day.isHoliday,'weekday': !day.isDisabled && !day.isWeekday && !day.isHoliday}">
+              <span>{{day.dayNumber}}</span>
+          </td>
+      </tr>
+  </table>
+<div>

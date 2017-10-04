@@ -1,0 +1,27 @@
+.invalidDay {
+    background-color: gray;
+}
+
+.weekday  {
+    background-color: mediumseagreen;
+}
+
+.weekend {
+    background-color: yellow;
+}
+
+.holiday {
+    background-color: orangered;
+}
+
+body {
+    font-family: "Calibri"
+}
+
+span {
+    font-family: "Calibri"
+}
+
+table {
+    font-size: bold;
+}

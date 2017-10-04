@@ -10,4 +10,5 @@ export class AppComponent {
   days: number;
   startDateString: string = null;
   startDate: Date;
+  countryCode: string;
 }
