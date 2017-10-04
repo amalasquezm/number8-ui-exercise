@@ -95,9 +95,6 @@ export class CustomCalendarComponent implements OnInit {
     }
 
     generateCalendar(start: Date, end: Date) {
-        console.log("start:" + start);
-        console.log("end:" + end);
-
         let lastDay = new Date();
 
         //month
@@ -112,13 +109,17 @@ export class CustomCalendarComponent implements OnInit {
         week = this.completeInvalidDays(this.getPreviousSunday(start), this.addDay(start, -1), week);
 
         let newEnd = this.addDay(end, 1);
+
         console.log("end:" + newEnd);
         for (let d = start; d <= newEnd; d.setDate(d.getDate() + 1)) {
             console.log("day:" + d);
+            
             //check if last day of month
             if(this.isLastDayOfMonth(d)) {                
+                
                 //Add last valid day to the week
                 week.days.push(this.getValidDay(d));
+                
                 //Completes invalid of the week
                 week = this.completeInvalidDays(this.addDay(d, 1), this.getPosteriorSaturday(d), week);
                 month.weeks.push(week);
@@ -139,7 +140,6 @@ export class CustomCalendarComponent implements OnInit {
 
             //check if last day of week
             else if(this.isLastDayOfWeek(d)) {
-                //TODO add to week
                 week.days.push(this.getValidDay(d));
                 month.weeks.push(week);
                 week = new Week();
@@ -153,7 +153,6 @@ export class CustomCalendarComponent implements OnInit {
             lastDay = d;
         }
 
-        console.log(this.getPosteriorSaturday(lastDay));
         week = this.completeInvalidDays(this.addDay(lastDay, 0), this.getPosteriorSaturday(lastDay), week);
         month.weeks.push(week);
         this.months.push(month);
