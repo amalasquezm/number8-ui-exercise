@@ -52,19 +52,27 @@ export class CustomCalendarComponent implements OnInit {
     }
 
     getPreviousSunday(date: Date): Date {
-        date.setDate(date.getDate() - date.getDay());
-        return date;
+        let newDate = new Date();
+        newDate.setDate(date.getDate() - date.getDay());
+        return newDate;
     }
 
     getPosteriorSaturday(date: Date): Date {
-        date.setDate(date.getDate() + 6 - date.getDay());
-        return date;
+        let newDate = new Date();
+        newDate.setDate(date.getDate() + 6 - date.getDay());
+        return newDate;
     }
 
-    completeInvalidDays(start: Date, end: Date, week: Week) {
+    completeInvalidDays(start: Date, end: Date, week: Week): Week {
+      console.log("completeInvalidDays");
+      console.log("start:" + start);
+        console.log("end:" + end);
       for (var d = start; d < end; d.setDate(d.getDate() + 1)) {
           week.days.push(this.getInvalidDay(new Date(d)));
       }
+      console.log("weekk");
+      console.log(week);
+      return week;
     }
 
     getInvalidDay(date: Date) : Day {
@@ -79,6 +87,12 @@ export class CustomCalendarComponent implements OnInit {
     onGenerateCalendarClick() {
         this.startDate = new Date(this.startDateString);
         this.generateCalendar(this.startDate, this.getLastSelectedDate());
+    }
+
+    addDay(date: Date, days: number) {
+        let newDate = new Date();
+        newDate.setDate(date.getDate() + days);
+        return newDate;
     }
 
     generateCalendar(start: Date, end: Date) {
@@ -96,23 +110,32 @@ export class CustomCalendarComponent implements OnInit {
         //week 
         let week = new Week();
         week.days = [];
+        week = this.completeInvalidDays(this.getPreviousSunday(start), this.addDay(start, 0), week);
 
         for (let d = start; d < end; d.setDate(d.getDate() + 1)) {
             console.log("day:" + d);
             //check if last day of month
             if(this.isLastDayOfMonth(d)) {
                 console.log("Last day:" + d);
-                //TODO add to week
+                
+                //Add last valid day to the week
                 week.days.push(this.getValidDay(d));
-                this.completeInvalidDays(d, this.getPosteriorSaturday(d), week);
+                //Completes invalid of the week
+                week = this.completeInvalidDays(this.addDay(d, 1), this.getPosteriorSaturday(d), week);
                 month.weeks.push(week);
                 this.months.push(month);
 
                 //Create new month                
                 month = new Month();
-                month.name = this.monthNames[d.getMonth()];
-                month.year = d.getFullYear();  
+                let nextDay = this.addDay(d, 1);
+                month.name = this.monthNames[nextDay.getMonth()];
+                month.year = nextDay.getFullYear();  
                 month.weeks = [];
+
+                //Create new week
+                week = new Week();
+                week.days = [];
+                week = this.completeInvalidDays(this.getPreviousSunday(nextDay), this.addDay(nextDay, 1), week);
             }
 
             //check if last day of week
@@ -132,7 +155,7 @@ export class CustomCalendarComponent implements OnInit {
             lastDay = d;
         }
 
-        this.completeInvalidDays(lastDay, this.getPosteriorSaturday(lastDay), week);
+        week = this.completeInvalidDays(this.addDay(lastDay, 1), this.getPosteriorSaturday(lastDay), week);
         month.weeks.push(week);
         this.months.push(month);
 
