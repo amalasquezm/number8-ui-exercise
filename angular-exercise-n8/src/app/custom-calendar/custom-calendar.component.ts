@@ -84,6 +84,7 @@ export class CustomCalendarComponent implements OnInit {
     }
 
     onGenerateCalendarClick() {
+        this.months = [];
         this.startDate = new Date(this.startDateString);
         this.generateCalendar(this.startDate, this.getLastSelectedDate());
     }
