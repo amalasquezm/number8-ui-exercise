@@ -15,4 +15,5 @@ import { CustomCalendarComponent } from './custom-calendar/custom-calendar.compo
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
